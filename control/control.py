@@ -20,16 +20,20 @@ def on_message(client, userdata, msg):
   elif "motor/right/speed" in msg.topic:
     motorRight.speed(float(msg.payload))
 
-client = mqtt.Client()
-client.on_connect = on_connect
-
-client.connect("master", 1883, 60)
-
 pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 motorRight = motor.Motor(19, 16, pwm, 14)
 
-client.loop_forever()
+client = mqtt.Client()
+client.on_connect = on_connect
+client.connect("master", 1883, 60)
+client.on_message = on_message
+client.loop_start()
+
+i = 0
+while i < 100:
+  time.sleep(1)
+  i += 1
 
 motorLeft.stop()
 motorRight.stop()
