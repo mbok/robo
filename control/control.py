@@ -31,7 +31,7 @@ pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 motorRight = motor.Motor(19, 16, pwm, 14)
 
-i = 100
+i = 0
 while i < 100:
   time.sleep(1)
   i += 1
