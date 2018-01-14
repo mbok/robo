@@ -3,7 +3,9 @@ import logging
 import paho.mqtt.client as mqtt
 import parts.motor as motor
 import parts.pwm as pwm
+import RPi.GPIO as GPIO
 
+GPIO.setmode(GPIO.BCM)
 logging.basicConfig(level=logging.DEBUG)
 
 
