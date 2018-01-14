@@ -31,4 +31,6 @@ while i < 100:
   i += 1
 
 motorLeft.stop()
+motorRight.stop()
+
 #  client.publish("test/temperature", "test")
