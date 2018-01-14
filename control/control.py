@@ -12,12 +12,12 @@ logging.basicConfig(level=logging.DEBUG)
 def on_connect(client, userdata, flags, rc):
   print("Connected with result code " + str(rc))
 
-# client = mqtt.Client()
-# client.on_connect = on_connect
+client = mqtt.Client()
+client.on_connect = on_connect
 
-# client.connect("localhost", 1883, 60)
+client.connect("master", 1883, 60)
 
-# client.loop_start()
+client.loop_start()
 
 pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
@@ -29,8 +29,7 @@ while i < 100:
   motorRight.backward(i / 100.0)
   time.sleep(1)
   i += 1
+  client.publish("test/temperature", "test")
 
 motorLeft.stop()
 motorRight.stop()
-
-#  client.publish("test/temperature", "test")
