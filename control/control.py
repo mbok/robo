@@ -11,6 +11,14 @@ logging.basicConfig(level=logging.DEBUG)
 
 def on_connect(client, userdata, flags, rc):
   print("Connected with result code " + str(rc))
+  client.subscribe("robo/#")
+
+def on_message(client, userdata, msg):
+  print(msg.topic + " " + str(msg.payload))
+  if "motor/left/speed" in msg.topic:
+    motorLeft.speed(float(msg.payload))
+  elif "motor/right/speed" in msg.topic:
+    motorRight.speed(float(msg.payload))
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -23,13 +31,11 @@ pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 motorRight = motor.Motor(19, 16, pwm, 14)
 
-i = 90
+i = 100
 while i < 100:
-  motorLeft.backward(i / 100.0)
-  motorRight.backward(i / 100.0)
   time.sleep(1)
   i += 1
-  client.publish("test/temperature", "test")
 
 motorLeft.stop()
 motorRight.stop()
+client.loop_stop()

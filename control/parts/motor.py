@@ -13,17 +13,22 @@ class Motor:
   def backward(self, ratio):
     GPIO.output(self.pin_in1, GPIO.HIGH)
     GPIO.output(self.pin_in2, GPIO.LOW)
-    self.speed(ratio)
+    self.pwm.pulseRatio(self.pwm_channel, ratio)
 
   def forward(self, ratio):
     GPIO.output(self.pin_in1, GPIO.LOW)
     GPIO.output(self.pin_in2, GPIO.HIGH)
-    self.speed(ratio)
+    self.pwm.pulseRatio(self.pwm_channel, ratio)
 
   def speed(self, ratio):
-    self.pwm.pulseRatio(self.pwm_channel, ratio)
+    if (ratio < 0.0):
+      self.backward(-1 * ratio)
+    elif (ratio > 0.0):
+      self.forward(ratio)
+    else:
+      self.stop()
 
   def stop(self):
     GPIO.output(self.pin_in1, GPIO.LOW)
     GPIO.output(self.pin_in2, GPIO.LOW)
-    self.speed(0)
+    self.pwm.pulseRatio(self.pwm_channel, 0)
