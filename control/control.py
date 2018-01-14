@@ -1,7 +1,8 @@
 import time
 import logging
 import paho.mqtt.client as mqtt
-import parts.motor as parts
+import parts.motor as motor
+import parts.pwm as pwm
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -16,7 +17,8 @@ def on_connect(client, userdata, flags, rc):
 
 # client.loop_start()
 
-motorLeft = parts.Motor(26, 20, 15)
+pwm = pwm.PwmControl()
+motorLeft = motor.Motor(26, 20, pwm, 15)
 
 # while True:
 #  time.sleep(2)
