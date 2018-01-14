@@ -22,6 +22,9 @@ def on_connect(client, userdata, flags, rc):
 pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 
-# while True:
-#  time.sleep(2)
+i = 0
+while i < 100:
+  motorLeft.forward(i / 100.0)
+  time.sleep(1)
+  i += 1
 #  client.publish("test/temperature", "test")
