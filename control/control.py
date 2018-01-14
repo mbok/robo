@@ -23,9 +23,9 @@ pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 motorRight = motor.Motor(19, 16, pwm, 14)
 
-i = 50
+i = 90
 while i < 100:
-  # motorLeft.forward(i / 100.0)
+  motorLeft.forward(i / 100.0)
   motorRight.forward(i / 100.0)
   time.sleep(1)
   i += 1
