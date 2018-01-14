@@ -21,10 +21,12 @@ def on_connect(client, userdata, flags, rc):
 
 pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
+motorRight = motor.Motor(19, 16, pwm, 14)
 
 i = 0
 while i < 100:
-  motorLeft.forward(i / 100.0)
+  # motorLeft.forward(i / 100.0)
+  motorRight.forward(max(i * 2 / 100.0, 100))
   time.sleep(1)
   i += 1
 
