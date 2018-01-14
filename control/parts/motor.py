@@ -6,18 +6,19 @@ class Motor:
     self.pin_in1 = pin_in1
     self.pin_in2 = pin_in2
     self.pwm_channel = pwm_channel
+    self.pwm = pwm
     GPIO.setup(self.pin_in1, GPIO.OUT)
     GPIO.setup(self.pin_in2, GPIO.OUT)
 
   def backward(self, ratio):
     GPIO.output(self.pin_in1, GPIO.HIGH)
     GPIO.output(self.pin_in2, GPIO.LOW)
-    self.speed(self, ratio)
+    self.speed(ratio)
 
   def forward(self, ratio):
     GPIO.output(self.pin_in1, GPIO.LOW)
     GPIO.output(self.pin_in2, GPIO.HIGH)
-    self.speed(self, ratio)
+    self.speed(ratio)
 
   def speed(self, ratio):
-    pwm.pulseRatio(self.pwm_channel, ratio)
+    self.pwm.pulseRatio(self.pwm_channel, ratio)
