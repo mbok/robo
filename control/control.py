@@ -25,16 +25,11 @@ client.on_connect = on_connect
 
 client.connect("master", 1883, 60)
 
-client.loop_start()
-
 pwm = pwm.PwmControl()
 motorLeft = motor.Motor(26, 20, pwm, 15)
 motorRight = motor.Motor(19, 16, pwm, 14)
 
-i = 0
-while i < 100:
-  time.sleep(1)
-  i += 1
+client.loop_forever()
 
 motorLeft.stop()
 motorRight.stop()
