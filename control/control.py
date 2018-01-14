@@ -25,8 +25,8 @@ motorRight = motor.Motor(19, 16, pwm, 14)
 
 i = 90
 while i < 100:
-  motorLeft.forward(i / 100.0)
-  motorRight.forward(i / 100.0)
+  motorLeft.backward(i / 100.0)
+  motorRight.backward(i / 100.0)
   time.sleep(1)
   i += 1
 
