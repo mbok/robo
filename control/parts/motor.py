@@ -9,18 +9,15 @@ class Motor:
     GPIO.setup(self.pin_in1, GPIO.OUT)
     GPIO.setup(self.pin_in2, GPIO.OUT)
 
+  def backward(self, ratio):
+    GPIO.output(self.pin_in1, GPIO.HIGH)
+    GPIO.output(self.pin_in2, GPIO.LOW)
+    speed(self, ratio)
 
-def backward(self, ratio):
-  GPIO.output(self.pin_in1, GPIO.HIGH)
-  GPIO.output(self.pin_in2, GPIO.LOW)
-  speed(self, ratio)
+  def forward(self, ratio):
+    GPIO.output(self.pin_in1, GPIO.LOW)
+    GPIO.output(self.pin_in2, GPIO.HIGH)
+    speed(self, ratio)
 
-
-def forward(self, ratio):
-  GPIO.output(self.pin_in1, GPIO.LOW)
-  GPIO.output(self.pin_in2, GPIO.HIGH)
-  speed(self, ratio)
-
-
-def speed(self, ratio):
-  pwm.pulseRatio(self.pwm_channel, ratio)
+  def speed(self, ratio):
+    pwm.pulseRatio(self.pwm_channel, ratio)

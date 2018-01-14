@@ -7,11 +7,10 @@ class PwmControl:
   servo_min = 150  # Min pulse length out of 4096
   servo_max = 600  # Max pulse length out of 4096
 
+  def __init__(self):
+    self.pwm = Adafruit_PCA9685.PCA9685()
+    # Set frequency to 60hz, good for servos.
+    self.pwm.set_pwm_freq(60)
 
-def __init__(self):
-  self.pwm = Adafruit_PCA9685.PCA9685()
-  # Set frequency to 60hz, good for servos.
-  self.pwm.set_pwm_freq(60)
-
-def pulseRatio(self, channel, ratio):
-  self.pwm.set_pwm(channel, 0, ratio * 4095)
+  def pulseRatio(self, channel, ratio):
+    self.pwm.set_pwm(channel, 0, ratio * 4095)
