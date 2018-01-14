@@ -22,3 +22,8 @@ class Motor:
 
   def speed(self, ratio):
     self.pwm.pulseRatio(self.pwm_channel, ratio)
+
+  def stop(self):
+    GPIO.output(self.pin_in1, GPIO.LOW)
+    GPIO.output(self.pin_in2, GPIO.LOW)
+    self.speed(0)

@@ -27,4 +27,6 @@ while i < 100:
   motorLeft.forward(i / 100.0)
   time.sleep(1)
   i += 1
+
+motorLeft.stop()
 #  client.publish("test/temperature", "test")
