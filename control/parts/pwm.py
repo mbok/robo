@@ -1,9 +1,11 @@
 # Import the PCA9685 module.
 import Adafruit_PCA9685
+import logging
 
 pwm = Adafruit_PCA9685.PCA9685()
 # Set frequency to 60hz, good for servos.
 pwm.set_pwm_freq(60)
+logger = logging.getLogger("pwm")
 
 class PwmMotorControl:
   def __init__(self, channel):
@@ -40,5 +42,6 @@ class PwmServoControl:
       pulse_start += (self.servo_max - mid) * self.ratio / 100.0
     elif (self.ratio < 0):
       pulse_start += (mid - self.servo_min) * self.ratio / 100.0
+    logger.debug("Set pulse={0} on servo={1} for ratio={2}% and trim={3}%", pulse_start, self.channel, self.ratio, self.trim)
     pwm.set_pwm(self.channel, 0, int(pulse_start))
 
