@@ -23,10 +23,15 @@ def on_message(client, userdata, msg):
     servoArmLeft.set_ratio(float(msg.payload))
   elif "servo/arm/left/trim" in msg.topic:
     servoArmLeft.set_trim(float(msg.payload))
+  elif "servo/body/ratio" in msg.topic:
+    servoBody.set_ratio(float(msg.payload))
+  elif "servo/body/trim" in msg.topic:
+    servoBody.set_trim(float(msg.payload))
 
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
 servoArmLeft = pwm.PwmServoControl(3)
+servoBody = pwm.PwmServoControl(1)
 
 client = mqtt.Client()
 client.on_connect = on_connect
