@@ -37,7 +37,7 @@ client.loop_start()
 try:
   client.loop_forever()
 except KeyboardInterrupt:
-  print("W: interrupt received, stopping…")
+  print("W: interrupt received, stopping")
 finally:
   motorLeft.stop()
   motorRight.stop()
