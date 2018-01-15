@@ -19,10 +19,14 @@ def on_message(client, userdata, msg):
     motorLeft.speed(float(msg.payload))
   elif "motor/right/speed" in msg.topic:
     motorRight.speed(float(msg.payload))
+  elif "servo/arm/left/ratio" in msg.topic:
+    servoArmLeft.ratio(float(msg.payload))
+  elif "servo/arm/left/trim" in msg.topic:
+    servoArmLeft.trim(float(msg.payload))
 
-pwm = pwm.PwmControl()
-motorLeft = motor.Motor(26, 20, pwm, 15)
-motorRight = motor.Motor(19, 16, pwm, 14)
+motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
+motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
+servoArmLeft = pwm.PwmServoControl(3)
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -30,11 +34,10 @@ client.connect("master", 1883, 60)
 client.on_message = on_message
 client.loop_start()
 
-i = 0
-while i < 100:
-  time.sleep(1)
-  i += 1
-
-motorLeft.stop()
-motorRight.stop()
-client.loop_stop()
+try:
+  client.loop_forever()
+except KeyboardInterrupt:
+  print("W: interrupt received, stopping…")
+finally:
+  motorLeft.stop()
+  motorRight.stop()
