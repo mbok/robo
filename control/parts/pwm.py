@@ -20,8 +20,8 @@ class PwmServoControl:
 
   def __init__(self, channel):
     self.channel = channel
-    self.trim = 0
-    self.ratio = 0
+    self.trim = 0.0
+    self.ratio = 0.0
 
   def ratio(self, ratio):
     if (ratio >= -100 and ratio <= 100):
