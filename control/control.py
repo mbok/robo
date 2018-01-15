@@ -32,7 +32,6 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.connect("master", 1883, 60)
 client.on_message = on_message
-client.loop_start()
 
 try:
   client.loop_forever()
