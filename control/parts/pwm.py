@@ -13,4 +13,4 @@ class PwmControl:
     self.pwm.set_pwm_freq(60)
 
   def pulseRatio(self, channel, ratio):
-    self.pwm.set_pwm(channel, 0, int(round(ratio * 4095)))
+    self.pwm.set_pwm(channel, 0, int(round(ratio / 100.0 * 4095)))

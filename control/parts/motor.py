@@ -21,9 +21,9 @@ class Motor:
     self.pwm.pulseRatio(self.pwm_channel, ratio)
 
   def speed(self, ratio):
-    if (ratio < 0.0):
+    if (ratio < 0):
       self.backward(-1 * ratio)
-    elif (ratio > 0.0):
+    elif (ratio > 0):
       self.forward(ratio)
     else:
       self.stop()
