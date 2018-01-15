@@ -23,12 +23,12 @@ class PwmServoControl:
     self.trim = 0.0
     self.ratio = 0.0
 
-  def ratio(self, ratio):
+  def set_ratio(self, ratio):
     if (ratio >= -100 and ratio <= 100):
       self.ratio = ratio
     self.apply()
 
-  def trim(self, trim):
+  def set_trim(self, trim):
     if (trim > -100 and trim < 100):
       self.trim = trim
     self.apply()

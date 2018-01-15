@@ -20,9 +20,9 @@ def on_message(client, userdata, msg):
   elif "motor/right/speed" in msg.topic:
     motorRight.speed(float(msg.payload))
   elif "servo/arm/left/ratio" in msg.topic:
-    servoArmLeft.ratio(float(msg.payload))
+    servoArmLeft.set_ratio(float(msg.payload))
   elif "servo/arm/left/trim" in msg.topic:
-    servoArmLeft.trim(float(msg.payload))
+    servoArmLeft.set_trim(float(msg.payload))
 
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
