@@ -42,6 +42,6 @@ class PwmServoControl:
       pulse_start += (self.servo_max - mid) * self.ratio / 100.0
     elif (self.ratio < 0):
       pulse_start += (mid - self.servo_min) * self.ratio / 100.0
-    logger.debug("Set pulse={0} on servo={1} for ratio={2}% and trim={3}%", pulse_start, self.channel, self.ratio, self.trim)
+    logger.debug("Set pulse=%f on servo=%d for ratio=%f and trim=%f", pulse_start, self.channel, self.ratio, self.trim)
     pwm.set_pwm(self.channel, 0, int(pulse_start))
 
