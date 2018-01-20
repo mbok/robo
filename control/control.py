@@ -12,11 +12,11 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("control")
 
 def dynamicServos():
+  time.sleep(random.random() * 2.0)
   if dynamicServosEnabled:
     client.publish("robo/servo/arm/left/ratio", (-100 + random.random() * 200), 0, True)
     client.publish("robo/servo/body/ratio", (-100 + random.random() * 200), 0, True)
     client.publish("robo/servo/head/ratio", (-100 + random.random() * 200), 0, True)
-    time.sleep(random.random() * 2.0)
 
 
 def on_connect(client, userdata, flags, rc):
@@ -47,7 +47,7 @@ def on_message(client, userdata, msg):
     elif (int(msg.payload) == 0):
       dynamicServosEnabled = False
 
-dynamicServosEnabled = False
+dynamicServosEnabled = True
 t = Thread(target=dynamicServos)
 t.start()
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
