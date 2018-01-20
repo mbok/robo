@@ -9,7 +9,7 @@ from threading import Thread
 
 GPIO.setmode(GPIO.BCM)
 logging.basicConfig(level=logging.DEBUG)
-
+logger = logging.getLogger("control")
 
 def dynamicServos():
   if dynamicServosEnabled:
@@ -24,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
   client.subscribe("robo/#")
 
 def on_message(client, userdata, msg):
-  print(msg.topic + " " + str(msg.payload))
+  logger.debug(msg.topic + " " + str(msg.payload))
   if "motor/left/speed" in msg.topic:
     motorLeft.speed(float(msg.payload))
   elif "motor/right/speed" in msg.topic:
