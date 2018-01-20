@@ -12,11 +12,12 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("control")
 
 def dynamicServos():
-  time.sleep(random.random() * 2.0)
-  if dynamicServosEnabled:
-    client.publish("robo/servo/arm/left/ratio", (-100 + random.random() * 200), 0, True)
-    client.publish("robo/servo/body/ratio", (-100 + random.random() * 200), 0, True)
-    client.publish("robo/servo/head/ratio", (-100 + random.random() * 200), 0, True)
+  while True:
+    time.sleep(random.random() * 2.0)
+    if dynamicServosEnabled:
+      client.publish("robo/servo/arm/left/ratio", (-100 + random.random() * 200), 0, True)
+      client.publish("robo/servo/body/ratio", (-100 + random.random() * 200), 0, True)
+      client.publish("robo/servo/head/ratio", (-100 + random.random() * 200), 0, True)
 
 
 def on_connect(client, userdata, flags, rc):
