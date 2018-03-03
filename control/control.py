@@ -1,28 +1,61 @@
-import time
 import logging
+import random
+import time
+from threading import Thread
+
+import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
+
 import parts.motor as motor
 import parts.pwm as pwm
-import RPi.GPIO as GPIO
-import random
-from threading import Thread
 
 GPIO.setmode(GPIO.BCM)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("control")
+GPIO_TRIGGER = 23
+GPIO_ECHO = 24
+GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+GPIO.setup(GPIO_ECHO, GPIO.IN)
 
-def dynamicServos():
+
+def distanz():
+  # setze Trigger auf HIGH
+  GPIO.output(GPIO_TRIGGER, True)
+
+  # setze Trigger nach 0.01ms aus LOW
+  time.sleep(0.00001)
+  GPIO.output(GPIO_TRIGGER, False)
+
+  StartZeit = time.time()
+  StopZeit = time.time()
+
+  # speichere Startzeit
+  while GPIO.input(GPIO_ECHO) == 0:
+    StartZeit = time.time()
+
+  # speichere Ankunftszeit
+  while GPIO.input(GPIO_ECHO) == 1:
+    StopZeit = time.time()
+
+  # Zeit Differenz zwischen Start und Ankunft
+  TimeElapsed = StopZeit - StartZeit
+  # mit der Schallgeschwindigkeit (34300 cm/s) multiplizieren
+  # und durch 2 teilen, da hin und zurueck
+  distanz = (TimeElapsed * 34300) / 2
+
+  return distanz
+
+
+def distanzThread():
   while True:
-    time.sleep(random.random() * 2.0)
-    if dynamicServosEnabled:
-      client.publish("robo/servo/arm/left/ratio", (-100 + random.random() * 200), 0, True)
-      client.publish("robo/servo/body/ratio", (-100 + random.random() * 200), 0, True)
-      client.publish("robo/servo/head/ratio", (-100 + random.random() * 200), 0, True)
+    client.publish("robo/distance", distanz(), 0, True)
+    time.sleep(1)
 
 
 def on_connect(client, userdata, flags, rc):
   print("Connected with result code " + str(rc))
   client.subscribe("robo/#")
+
 
 def on_message(client, userdata, msg):
   logger.debug(msg.topic + " " + str(msg.payload))
@@ -42,14 +75,9 @@ def on_message(client, userdata, msg):
     servoHead.set_ratio(float(msg.payload))
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
-  elif "servo/dynamic" in msg.topic:
-    if (int(msg.payload) == 1):
-      dynamicServosEnabled = True
-    elif (int(msg.payload) == 0):
-      dynamicServosEnabled = False
 
-dynamicServosEnabled = True
-t = Thread(target=dynamicServos)
+
+t = Thread(target=distanzControl)
 t.start()
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
