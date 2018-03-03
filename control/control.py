@@ -49,7 +49,7 @@ def distanz():
 def distanceThread():
   while True:
     client.publish("robo/distance", distanz(), 0, True)
-    time.sleep(0.2)
+    time.sleep(0.25)
 
 
 def on_connect(client, userdata, flags, rc):
