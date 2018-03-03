@@ -77,8 +77,6 @@ def on_message(client, userdata, msg):
     servoHead.set_trim(float(msg.payload))
 
 
-t = Thread(target=distanzControl)
-t.start()
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
 servoArmLeft = pwm.PwmServoControl(3)
@@ -89,6 +87,9 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.connect("master", 1883, 60)
 client.on_message = on_message
+
+t = Thread(target=distanzThread)
+t.start()
 
 try:
   client.loop_forever()
