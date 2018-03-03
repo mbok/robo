@@ -46,7 +46,7 @@ def distanz():
   return distanz
 
 
-def distanzThread():
+def distanceThread():
   while True:
     client.publish("robo/distance", distanz(), 0, True)
     time.sleep(1)
@@ -88,7 +88,7 @@ client.on_connect = on_connect
 client.connect("master", 1883, 60)
 client.on_message = on_message
 
-t = Thread(target=distanzThread)
+t = Thread(target=distanceThread)
 t.start()
 
 try:
