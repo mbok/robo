@@ -78,7 +78,7 @@ def on_message(client, userdata, msg):
 
 
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
-motorRight = motor.Motor(19, 16, pwm.PwmMotorControl(14))
+motorRight = motor.Motor(13, 16, pwm.PwmMotorControl(14))
 servoArmLeft = pwm.PwmServoControl(3)
 servoBody = pwm.PwmServoControl(1)
 servoHead = pwm.PwmServoControl(2)
