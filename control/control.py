@@ -143,3 +143,4 @@ except KeyboardInterrupt:
 finally:
   motorLeft.stop()
   motorRight.stop()
+  raise SystemExit
