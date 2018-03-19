@@ -98,7 +98,7 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
   global speachLanguage
-  logger.debug(msg.topic + " " + str(msg.payload))
+  logger.debug(msg.topic + " " + msg.payload.decode("utf-8"))
   if "motor/left/speed" in msg.topic:
     motorLeft.speed(float(msg.payload))
   elif "motor/right/speed" in msg.topic:
