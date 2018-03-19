@@ -4,7 +4,8 @@ from gtts import gTTS
 import logging
 import random
 import time
-import tempfile
+import hashlib
+import os.path
 
 import pygame as pg
 
@@ -115,10 +116,15 @@ def on_message(client, userdata, msg):
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
   elif "speach/say" in msg.topic:
-    tts = gTTS(text=str(msg.payload), lang=speachLanguage, slow=True)
-    file = "/tmp/speach.mp3"
-    tts.save(file)
-    play_music(file)
+    text = str(msg.payload)
+    textHash = hashlib.md5(text.encode()).hexdigest()
+    file = "/tmp/speach+"+str(textHash)+".mp3"
+    logger.debug("File for speach: " + file)
+    if not os.path.isfile(file):
+      logger.debug("Downloading speach to: " + file)
+      tts = gTTS(text=text, lang=speachLanguage, slow=True)
+      tts.save(file)
+    play_music(file, False)
   elif "speach/lang" in msg.topic:
     speachLanguage = str(msg.payload)
 
