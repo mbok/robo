@@ -1,7 +1,12 @@
+from threading import Thread
+from gtts import gTTS
+
 import logging
 import random
 import time
-from threading import Thread
+import tempfile
+
+import pygame as pg
 
 import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
@@ -16,6 +21,38 @@ GPIO_TRIGGER = 23
 GPIO_ECHO = 24
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
+
+# Init music
+freq = 44100    # audio CD quality
+bitsize = -16   # unsigned 16 bit
+channels = 2    # 1 is mono, 2 is stereo
+buffer = 2048   # number of samples (experiment to get right sound)
+pg.mixer.init(freq, bitsize, channels, buffer)
+pg.mixer.music.set_volume(1)
+
+
+def play_music(music_file, wait=True):
+  clock = pg.time.Clock()
+  if pg.mixer.music.get_busy():
+    pg.mixer.music.fadeout(1000)
+    pg.mixer.music.stop()
+  try:
+    pg.mixer.music.load(music_file)
+    print("Music file {} loaded!".format(music_file))
+  except pygame.error:
+    print("File {} not found! {}".format(music_file, pg.get_error()))
+    return
+
+  pg.mixer.music.play()
+
+  # If you want to fade in the audio...
+  # for x in range(0,100):
+  #     pg.mixer.music.set_volume(float(x)/100.0)
+  #     time.sleep(.0075)
+  # # check if playback has finished
+  if (wait):
+    while pg.mixer.music.get_busy():
+      clock.tick(30)
 
 
 def distanz():
@@ -75,8 +112,16 @@ def on_message(client, userdata, msg):
     servoHead.set_ratio(float(msg.payload))
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
+  elif "speach/say" in msg.topic:
+    tts = gTTS(text=str(msg.payload), lang=speachLanguage, slow=True)
+    file = "/tmp/speach-" + str((++speachCount) % 3) +".mp3"
+    tts.save(file)
+    play_music(file)
+  elif "speach/lang" in msg.topic:
+    speachLanguage = str(msg.payload)
 
-
+speachLanguage = "de"
+speachCount = 0
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(13, 16, pwm.PwmMotorControl(14))
 servoArmLeft = pwm.PwmServoControl(3)
