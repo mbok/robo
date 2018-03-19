@@ -84,7 +84,8 @@ def distanz():
 
 
 def distanceThread():
-  while True:
+  global systemRunning
+  while systemRunning:
     client.publish("robo/distance", distanz(), 0, True)
     time.sleep(0.25)
 
@@ -121,6 +122,7 @@ def on_message(client, userdata, msg):
   elif "speach/lang" in msg.topic:
     speachLanguage = str(msg.payload)
 
+systemRunning = True
 speachLanguage = "de"
 speachCount = 0
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
@@ -142,6 +144,7 @@ try:
 except KeyboardInterrupt:
   print("W: interrupt received, stopping")
 finally:
+  systemRunning = False
   motorLeft.stop()
   motorRight.stop()
   raise SystemExit
