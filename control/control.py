@@ -95,6 +95,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
+  global speachLanguage
   logger.debug(msg.topic + " " + str(msg.payload))
   if "motor/left/speed" in msg.topic:
     motorLeft.speed(float(msg.payload))
@@ -113,13 +114,11 @@ def on_message(client, userdata, msg):
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
   elif "speach/say" in msg.topic:
-    global speachLanguage, speachCount
     tts = gTTS(text=str(msg.payload), lang=speachLanguage, slow=True)
-    file = "/tmp/speach-" + str((++speachCount) % 3) +".mp3"
+    file = "/tmp/speach.mp3"
     tts.save(file)
     play_music(file)
   elif "speach/lang" in msg.topic:
-    global speachLanguage
     speachLanguage = str(msg.payload)
 
 speachLanguage = "de"
