@@ -127,6 +127,12 @@ def on_message(client, userdata, msg):
     play_music(file, False)
   elif "speach/lang" in msg.topic:
     speachLanguage = str(msg.payload)
+  elif "musicbox/play/file" in msg.topic:
+    file = str(msg.payload)
+    if os.path.isfile(file):
+      play_music(file, False)
+    else:
+      logger.warn("File not found: " + file)
 
 systemRunning = True
 speachLanguage = "de"
