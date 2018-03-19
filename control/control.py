@@ -113,11 +113,13 @@ def on_message(client, userdata, msg):
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
   elif "speach/say" in msg.topic:
+    global speachLanguage, speachCount
     tts = gTTS(text=str(msg.payload), lang=speachLanguage, slow=True)
     file = "/tmp/speach-" + str((++speachCount) % 3) +".mp3"
     tts.save(file)
     play_music(file)
   elif "speach/lang" in msg.topic:
+    global speachLanguage
     speachLanguage = str(msg.payload)
 
 speachLanguage = "de"
