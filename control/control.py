@@ -116,7 +116,7 @@ def on_message(client, userdata, msg):
   elif "servo/head/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
   elif "speach/say" in msg.topic:
-    text = str(msg.payload)
+    text = msg.payload.decode("utf-8")
     textHash = hashlib.md5(str(text + speachLanguage).encode()).hexdigest()
     file = "/tmp/speach+"+str(textHash)+".mp3"
     logger.debug("File for speach: " + file)
