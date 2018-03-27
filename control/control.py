@@ -137,6 +137,10 @@ def on_message(client, userdata, msg):
       play_music(file, False)
     else:
       logger.warn("File not found: " + file)
+  elif "reset":
+    startup()
+
+
 
 def startup():
   client.publish("robo/servo/arm/left/ratio", 0, 0, True)
@@ -167,6 +171,7 @@ t = Thread(target=distanceThread)
 t.start()
 
 try:
+  startup()
   client.loop_forever()
 except KeyboardInterrupt:
   print("W: interrupt received, stopping")
