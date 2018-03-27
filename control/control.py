@@ -137,7 +137,7 @@ def on_message(client, userdata, msg):
       play_music(file, False)
     else:
       logger.warn("File not found: " + file)
-  elif "reset":
+  elif "reset" in msg.topic:
     startup()
 
 
