@@ -111,10 +111,14 @@ def on_message(client, userdata, msg):
     servoBody.set_ratio(float(msg.payload))
   elif "servo/body/trim" in msg.topic:
     servoBody.set_trim(float(msg.payload))
-  elif "servo/head/ratio" in msg.topic:
+  elif "servo/head-h/ratio" in msg.topic:
     servoHead.set_ratio(float(msg.payload))
-  elif "servo/head/trim" in msg.topic:
+  elif "servo/head-h/trim" in msg.topic:
     servoHead.set_trim(float(msg.payload))
+  elif "servo/head-v/ratio" in msg.topic:
+    servoHeadVertical.set_ratio(float(msg.payload))
+  elif "servo/head-v/trim" in msg.topic:
+    servoHeadVertical.set_trim(float(msg.payload))
   elif "speach/say" in msg.topic:
     text = msg.payload.decode("utf-8")
     textHash = speachLanguage + "-" + hashlib.md5(text.encode("utf-8")).hexdigest()
@@ -139,6 +143,7 @@ speachLanguage = "de"
 speachCount = 0
 motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(13, 16, pwm.PwmMotorControl(14))
+servoHeadVertical = pwm.PwmServoControl(0)
 servoArmLeft = pwm.PwmServoControl(3)
 servoBody = pwm.PwmServoControl(1)
 servoHead = pwm.PwmServoControl(2)
