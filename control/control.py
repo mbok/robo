@@ -107,10 +107,10 @@ def on_message(client, userdata, msg):
     servoArmLeft.set_ratio(float(msg.payload))
   elif "servo/arm/left/trim" in msg.topic:
     servoArmLeft.set_trim(float(msg.payload))
-  elif "servo/body/ratio" in msg.topic:
-    servoBody.set_ratio(float(msg.payload))
-  elif "servo/body/trim" in msg.topic:
-    servoBody.set_trim(float(msg.payload))
+  elif "servo/arm/right/ratio" in msg.topic:
+    servoArmRight.set_ratio(float(msg.payload))
+  elif "servo/arm/right/trim" in msg.topic:
+    servoArmRight.set_trim(float(msg.payload))
   elif "servo/head-h/ratio" in msg.topic:
     servoHead.set_ratio(float(msg.payload))
   elif "servo/head-h/trim" in msg.topic:
@@ -138,6 +138,16 @@ def on_message(client, userdata, msg):
     else:
       logger.warn("File not found: " + file)
 
+def startup():
+  client.publish("robo/servo/arm/left/ratio", 0, 0, True)
+  client.publish("robo/servo/arm/right/ratio", 0, 0, True)
+  client.publish("robo/servo/head-h/ratio", 0, 0, True)
+  client.publish("robo/servo/head-v/ratio", 0, 0, True)
+  client.publish("robo/motor/left/speed", 0, 0, True)
+  client.publish("robo/motor/right/speed", 0, 0, True)
+  client.publish("robo/speach/say", "Hallo, ich bin Robi. Alle Funktionen sind hochgefahren!", 0, True)
+
+
 systemRunning = True
 speachLanguage = "de"
 speachCount = 0
@@ -145,7 +155,7 @@ motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(13, 16, pwm.PwmMotorControl(14))
 servoHeadVertical = pwm.PwmServoControl(0)
 servoArmLeft = pwm.PwmServoControl(3)
-servoBody = pwm.PwmServoControl(1)
+servoArmRight = pwm.PwmServoControl(1)
 servoHead = pwm.PwmServoControl(2)
 
 client = mqtt.Client()
