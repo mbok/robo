@@ -139,6 +139,8 @@ def on_message(client, userdata, msg):
       play_music(file, False)
     else:
       logger.warn("File not found: " + file)
+  elif "music/stop" in msg.topic:
+    pg.mixer.music.stop()
   elif "sounds/play/url" in msg.topic:
     url = str(msg.payload)
     soundHash = hashlib.md5(url.encode()).hexdigest()
