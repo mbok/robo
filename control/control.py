@@ -9,6 +9,8 @@ import os.path
 
 import pygame as pg
 
+import urllib
+
 import RPi.GPIO as GPIO
 import paho.mqtt.client as mqtt
 
@@ -131,12 +133,24 @@ def on_message(client, userdata, msg):
     play_music(file, False)
   elif "speach/lang" in msg.topic:
     speachLanguage = str(msg.payload)
-  elif "musicbox/play/file" in msg.topic:
+  elif "music/play/file" in msg.topic:
     file = str(msg.payload)
     if os.path.isfile(file):
       play_music(file, False)
     else:
       logger.warn("File not found: " + file)
+  elif "sounds/play/url" in msg.topic:
+    url = str(msg.payload)
+    soundHash = hashlib.md5(url.encode()).hexdigest()
+    file = "/tmp/sound+"+str(soundHash)+".wav"
+    logger.debug("File for sound: " + file)
+    if not os.path.isfile(file):
+      logger.debug("Downloading sound to: " + file)
+      urllib.urlretrieve(url, file)
+    sound = pg.mixer.Sound(file)
+    sound.play()
+  elif "sounds/stop" in msg.topic:
+    pg.mixer.stop()
   elif "reset" in msg.topic:
     startup()
 
