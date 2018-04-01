@@ -16,6 +16,7 @@ import paho.mqtt.client as mqtt
 
 import parts.motor as motor
 import parts.pwm as pwm
+import sounds as sounds
 
 GPIO.setmode(GPIO.BCM)
 logging.basicConfig(level=logging.DEBUG)
@@ -95,7 +96,7 @@ def distanceThread():
 
 def on_connect(client, userdata, flags, rc):
   print("Connected with result code " + str(rc))
-  client.subscribe("robo/#")
+  client.subscribe([("robo/motor", 0), ("robo/servo", 0)])
 
 
 def on_message(client, userdata, msg):
@@ -183,6 +184,9 @@ client.on_connect = on_connect
 client.connect("master", 1883, 60)
 client.on_message = on_message
 
+soundsCtrl = sounds.SoundsControl()
+soundsCtrl.start()
+
 t = Thread(target=distanceThread)
 t.start()
 
@@ -195,4 +199,5 @@ finally:
   systemRunning = False
   motorLeft.stop()
   motorRight.stop()
+  soundsCtrl.stop()
   raise SystemExit
