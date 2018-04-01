@@ -11,7 +11,7 @@ class SoundsControl:
 
   def on_connect(self, client, userdata, flags, rc):
     self.logger.info("Connected sounds with result code " + str(rc))
-    client.subscribe([("robo/speach", 0), ("robo/music", 0), ("robo/sounds", 0)])
+    client.subscribe([("robo/speach/#", 0), ("robo/music/#", 0), ("robo/sounds/#", 0)])
 
   def on_message(self, client, userdata, msg):
     self.logger.debug(msg.topic + " " + msg.payload.decode("utf-8"))
