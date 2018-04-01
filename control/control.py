@@ -184,6 +184,7 @@ client.on_connect = on_connect
 client.connect("master", 1883, 60)
 client.on_message = on_message
 
+client.loop_start()
 soundsCtrl = sounds.SoundsControl()
 soundsCtrl.start()
 
@@ -192,7 +193,8 @@ t.start()
 
 try:
   startup()
-  client.loop_forever()
+  while True:
+    time.sleep(1)
 except KeyboardInterrupt:
   print("W: interrupt received, stopping")
 finally:
@@ -200,4 +202,5 @@ finally:
   motorLeft.stop()
   motorRight.stop()
   soundsCtrl.stop()
+  client.loop_stop()
   raise SystemExit
