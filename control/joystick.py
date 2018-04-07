@@ -36,9 +36,9 @@ class JoystickControl:
     v = self.v_ratio / 100
     if h > 0:
       left = 1
-      right = -2 * h * h + 1
+      right = -2 * h + 1
     else:
-      left = -2 * h * h + 1
+      left = 2 * h + 1
       right = 1
     left *= v
     right *= v
