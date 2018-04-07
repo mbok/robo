@@ -27,9 +27,7 @@ class JoystickControl:
       self.v_ratio = float(msg.payload)
       self.update()
     elif "reset" in msg.topic:
-      self.h_ratio = 0.0
-      self.v_ratio = 0.0
-      self.update()
+      self.reset()
 
   def update(self):
     h = self.h_ratio / 100
@@ -45,8 +43,13 @@ class JoystickControl:
     self.client.publish("robo/motor/left/speed", left * 100, 0, True)
     self.client.publish("robo/motor/right/speed", right * 100, 0, True)
 
+  def reset(self):
+    self.client.publish("robo/joystick/h/ratio", 0, 0, True)
+    self.client.publish("robo/joystick/v/ratio", 0, 0, True)
+
   def start(self):
     self.client.loop_start()
+    self.reset()
 
   def stop(self):
     self.client.loop_stop(True)
