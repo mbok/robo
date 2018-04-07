@@ -8,6 +8,7 @@ import paho.mqtt.client as mqtt
 import parts.motor as motor
 import parts.pwm as pwm
 import sounds as sounds
+import joystick as joystick
 
 GPIO.setmode(GPIO.BCM)
 logging.basicConfig(level=logging.DEBUG)
@@ -81,7 +82,6 @@ def on_message(client, userdata, msg):
     servoHeadVertical.set_ratio(float(msg.payload))
   elif "servo/head-v/trim" in msg.topic:
     servoHeadVertical.set_trim(float(msg.payload))
-
   elif "reset" in msg.topic:
     startup()
 
@@ -113,6 +113,8 @@ client.on_message = on_message
 client.loop_start()
 soundsCtrl = sounds.SoundsControl()
 soundsCtrl.start()
+joystickCtrl = joystick.JoystickControl()
+joystickCtrl.start()
 
 t = Thread(target=distanceThread)
 t.start()
@@ -128,5 +130,6 @@ finally:
   motorLeft.stop()
   motorRight.stop()
   soundsCtrl.stop()
+  joystickCtrl.stop()
   client.loop_stop()
   raise SystemExit
