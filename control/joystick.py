@@ -2,6 +2,7 @@ import logging
 
 import paho.mqtt.client as mqtt
 
+
 class JoystickControl:
   def __init__(self):
     self.logger = logging.getLogger("joystick")
@@ -33,15 +34,17 @@ class JoystickControl:
     h = self.h_ratio / 100
     v = self.v_ratio / 100
     if h > 0:
-      left = 1
+      left = 1 + 2 * h
       right = -2 * h + 1
     else:
       left = 2 * h + 1
-      right = 1
+      right = 1 - 2 * h
     left *= v
     right *= v
-    self.client.publish("robo/motor/left/speed", left * 100, 0, True)
-    self.client.publish("robo/motor/right/speed", right * 100, 0, True)
+    self.client.publish("robo/motor/left/speed",
+                        max(min(left * 100, 100), -100), 0, True)
+    self.client.publish("robo/motor/right/speed",
+                        max(min(right * 100, 100), -100), 0, True)
 
   def reset(self):
     self.client.publish("robo/joystick/h/ratio", 0, 0, True)

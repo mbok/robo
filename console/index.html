@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <title>Robca :: Console</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <!-- MQTT -->
+  <script src="https://unpkg.com/mqtt@2.18.8/dist/mqtt.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+<!-- Our application root element -->
+<div id="console">
+  <v-app>
+    <v-content>
+      <v-container>
+
+        <v-badge color="green" v-show="connected">Connected</v-badge>
+        <v-badge color="red" v-show="!connected">Disconnected</v-badge>
+
+        <v-card-text>
+          <v-layout row>
+            <v-flex>
+              <v-slider
+                  label="Horizontal"
+                  v-model="control.joystick.h"
+                  max="100"
+                  min="-100"
+                  @change="publish('joystick/h/ratio', control.joystick.h)"
+              ></v-slider>
+            </v-flex>
+
+            <v-flex shrink style="width: 60px">
+              <v-text-field
+                  v-model="control.joystick.h"
+                  class="mt-0"
+                  hide-details
+                  single-line
+                  type="number"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <v-layout row>
+            <v-flex>
+              <v-slider
+                  label="Vertical"
+                  v-model="control.joystick.v"
+                  max="100"
+                  min="-100"
+                  @change="publish('joystick/v/ratio', control.joystick.v)"
+              ></v-slider>
+            </v-flex>
+
+            <v-flex shrink style="width: 60px">
+              <v-text-field
+                  v-model="control.joystick.v"
+                  class="mt-0"
+                  hide-details
+                  single-line
+                  type="number"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-card-text>
+      </v-container>
+    </v-content>
+  </v-app>
+</div>
+
+<!-- Start running your app -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script type="text/javascript" src="./console.js"></script>
+
+</body>
+</html>
