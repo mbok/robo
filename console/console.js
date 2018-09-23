@@ -6,11 +6,14 @@ new Vue({
       joystick: {
         v: 0.0,
         h: 0.0
+      },
+      speach: {
+        say: ""
       }
     }
   },
   created: function () {
-    this.client = mqtt.connect("ws://localhost:9001");
+    this.client = mqtt.connect("ws://ameise-mint:9001");
     this.client.subscribe("mqtt/demo");
     this.client.on("message", this.onMessage);
     this.client.on('connect', this.onConnect);
