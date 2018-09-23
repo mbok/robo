@@ -38,13 +38,13 @@ class JoystickControl:
       if left >= 0:
         right = 2 - left
       else:
-        right = 2 + left
+        right = 2
     else:
       right = -2 * (h * h) + 1
       if right >= 0:
         left = 2 - right
       else:
-        left = 2 + right
+        left = 2
     left *= v
     right *= v
     self.client.publish("robo/motor/left/speed",
