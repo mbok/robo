@@ -33,12 +33,18 @@ class JoystickControl:
   def update(self):
     h = self.h_ratio / 100
     v = self.v_ratio / 100
-    if h > 0:
-      left = 1 + 2 * h
-      right = -2 * h + 1
+    if h < 0:
+      left = -2 * (h * h) + 1
+      if left >= 0:
+        right = 2 - left
+      else:
+        right = 2 + left
     else:
-      left = 2 * h + 1
-      right = 1 - 2 * h
+      right = -2 * (h * h) + 1
+      if right >= 0:
+        left = 2 - right
+      else:
+        left = 2 + right
     left *= v
     right *= v
     self.client.publish("robo/motor/left/speed",
