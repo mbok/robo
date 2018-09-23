@@ -20,6 +20,11 @@
 <body>
 <!-- Our application root element -->
 <div id="console">
+  <center>
+    <div id="joystick"
+         style="width:90%;height:200px;border:1px solid #889999;position:relative"></div>
+  </center>
+
   <v-app>
     <v-content>
       <v-container>
@@ -71,6 +76,17 @@
               ></v-text-field>
             </v-flex>
           </v-layout>
+
+          <v-layout row>
+            <v-textarea
+                box
+                label="Speach:"
+                auto-grow
+                v-model="control.speach.say"
+                @blur="publish('speach/say', control.speach.say)"
+            ></v-textarea>
+          </v-layout>
+
         </v-card-text>
       </v-container>
     </v-content>
@@ -80,7 +96,7 @@
 <!-- Start running your app -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="./nipplejs.min.js"></script>
 <script type="text/javascript" src="./console.js"></script>
-
 </body>
 </html>
