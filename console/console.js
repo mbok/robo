@@ -59,7 +59,8 @@ var cc = new Vue({
     },
     onJoystick: function({event, data}) {
       if (event.type == "move") {
-        var h = - Math.round((((data.angle.degree % 180) - 90) / 90.0) * 100);
+        console.log(data);
+        var h = Math.round(Math.sin(-(data.angle.radian - Math.PI / 2)) * 100);
         var v = Math.min(Math.round(data.distance), 100) * (data.angle.degree >= 0 && data.angle.degree<=180 ? -1 : 1);
         this.control.joystick.h = h;
         this.control.joystick.v = v;
@@ -67,6 +68,8 @@ var cc = new Vue({
         this.publishThrottled("joystick/hxv/ratio", this.control.joystick.h + "x" + this.control.joystick.v);
       } else if (event.type == "end") {
         this.publishThrottled("joystick/hxv/ratio", "0x0");
+        this.control.joystick.h = 0;
+        this.control.joystick.v = 0;
       }
     }
   }
