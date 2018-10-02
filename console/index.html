@@ -40,7 +40,7 @@
                   v-model="control.joystick.h"
                   max="100"
                   min="-100"
-                  @change="publish('joystick/h/ratio', control.joystick.h)"
+                  @change="updateJoystick()"
               ></v-slider>
             </v-flex>
 
@@ -62,7 +62,7 @@
                   v-model="control.joystick.v"
                   max="100"
                   min="-100"
-                  @change="publish('joystick/v/ratio', control.joystick.v)"
+                  @change="updateJoystick()"
               ></v-slider>
             </v-flex>
 

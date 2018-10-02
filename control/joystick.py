@@ -53,9 +53,9 @@ class JoystickControl:
     left *= v
     right *= v
     self.client.publish("robo/motor/left/speed",
-                        max(min(left * 100, 100), -100), 0, True)
+                        -max(min(left * 100, 100), -100), 0, True)
     self.client.publish("robo/motor/right/speed",
-                        max(min(right * 100, 100), -100), 0, True)
+                        -max(min(right * 100, 100), -100), 0, True)
 
   def reset(self):
     self.client.publish("robo/joystick/h/ratio", 0, 0, True)

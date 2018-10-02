@@ -3,8 +3,8 @@ import subprocess as sp
 import numpy
 
 command = [
-	'avconv',
-        '-i', 'pipe:0',             # fifo is the named pipe
+	'ffmpeg',
+        '-i', '-',             # fifo is the named pipe
         '-pix_fmt', 'bgr24',      # opencv requires bgr24 pixel format.
         '-vcodec', 'rawvideo',
         '-an','-sn',              # we want to disable audio processing (there is no audio)

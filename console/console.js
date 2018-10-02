@@ -34,8 +34,8 @@ var cc = new Vue({
     }
   },
   created: function () {
-    this.client = mqtt.connect("ws://ameise-mint:9001");
-    this.client.subscribe("mqtt/demo");
+    this.client = mqtt.connect("ws://ameise18:9001");
+    this.client.subscribe("robo/#");
     this.client.on("message", this.onMessage);
     this.client.on('connect', this.onConnect);
     this.client.on('close', this.onClose);
@@ -45,7 +45,12 @@ var cc = new Vue({
   },
   methods: {
     onMessage: function (topic, payload) {
-      console.log([topic, payload].join(": "));
+      console.log(topic, payload);
+      if (topic.includes("joystick/hxv/ratio")) {
+        var parts = payload.toString().split("x");
+        this.control.joystick.h = parts[0];
+        this.control.joystick.v = parts[1];
+      }
     },
     onConnect: function() {
       this.connected = true;
@@ -57,14 +62,16 @@ var cc = new Vue({
       console.log("Publish to ", relativeTopic, payload);
       this.client.publish("robo/" + relativeTopic, payload+"", {retain: false});
     },
+    updateJoystick: function() {
+        this.publishThrottled("joystick/hxv/ratio", this.control.joystick.h + "x" + this.control.joystick.v);
+    },
     onJoystick: function({event, data}) {
       if (event.type == "move") {
-        console.log(data);
         var h = Math.round(Math.sin(-(data.angle.radian - Math.PI / 2)) * 100);
-        var v = Math.min(Math.round(data.distance), 100) * (data.angle.degree >= 0 && data.angle.degree<=180 ? -1 : 1);
+        var v = Math.min(Math.round(data.distance), 100) * (data.angle.degree >= 0 && data.angle.degree<=180 ? 1 : -1);
         this.control.joystick.h = h;
         this.control.joystick.v = v;
-        console.log("Joystick change: h x v: ", h, v);
+        // console.log("Joystick change: h x v: ", h, v);
         this.publishThrottled("joystick/hxv/ratio", this.control.joystick.h + "x" + this.control.joystick.v);
       } else if (event.type == "end") {
         this.publishThrottled("joystick/hxv/ratio", "0x0");
