@@ -30,6 +30,10 @@ var cc = new Vue({
       },
       speach: {
         say: ""
+      },
+      head: {
+        h: 0.0,
+        v: 0.0
       }
     }
   },
@@ -45,11 +49,17 @@ var cc = new Vue({
   },
   methods: {
     onMessage: function (topic, payload) {
-      console.log(topic, payload);
+      console.log([topic, payload].join(": "));
       if (topic.includes("joystick/hxv/ratio")) {
         var parts = payload.toString().split("x");
         this.control.joystick.h = parts[0];
         this.control.joystick.v = parts[1];
+      } else if (topic.includes("speach/say")) {
+        this.control.speach.say = payload.toString();
+      } else if (topic.includes("servo/head-h/ratio")) {
+        this.control.head.h = payload.toString();
+      } else if (topic.includes("servo/head-v/ratio")) {
+        this.control.head.v = payload.toString();
       }
     },
     onConnect: function() {

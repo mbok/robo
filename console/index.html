@@ -20,11 +20,6 @@
 <body>
 <!-- Our application root element -->
 <div id="console">
-  <center>
-    <div id="joystick"
-         style="width:90%;height:200px;border:1px solid #889999;position:relative"></div>
-  </center>
-
   <v-app>
     <v-content>
       <v-container>
@@ -32,48 +27,55 @@
         <v-badge color="green" v-show="connected">Connected</v-badge>
         <v-badge color="red" v-show="!connected">Disconnected</v-badge>
 
+        <center>
+          <div id="joystick"
+               style="width:90%;height:200px;position:relative"></div>
+        </center>
+
         <v-card-text>
-          <v-layout row>
-            <v-flex>
+          <h6 class="subheading">Joystick</h6>
+          <v-layout row wrap>
+            <v-flex xs6>
               <v-slider
-                  label="Horizontal"
+                  label="H"
                   v-model="control.joystick.h"
                   max="100"
                   min="-100"
                   @change="updateJoystick()"
+                  thumb-label
               ></v-slider>
             </v-flex>
-
-            <v-flex shrink style="width: 60px">
-              <v-text-field
-                  v-model="control.joystick.h"
-                  class="mt-0"
-                  hide-details
-                  single-line
-                  type="number"
-              ></v-text-field>
+            <v-flex xs6>
+              <v-slider
+                      label="V"
+                      v-model="control.joystick.v"
+                      max="100"
+                      min="-100"
+                      @change="updateJoystick()"
+              ></v-slider>
             </v-flex>
           </v-layout>
 
-          <v-layout row>
-            <v-flex>
+          <h6 class="subheading">Head</h6>
+          <v-layout row wrap>
+            <v-flex xs6>
               <v-slider
-                  label="Vertical"
-                  v-model="control.joystick.v"
-                  max="100"
-                  min="-100"
-                  @change="updateJoystick()"
+                      label="H"
+                      v-model="control.head.h"
+                      max="100"
+                      min="-100"
+                      @change="publish('servo/head-h/ratio', control.head.h)"
+                      thumb-label
               ></v-slider>
             </v-flex>
-
-            <v-flex shrink style="width: 60px">
-              <v-text-field
-                  v-model="control.joystick.v"
-                  class="mt-0"
-                  hide-details
-                  single-line
-                  type="number"
-              ></v-text-field>
+            <v-flex xs6>
+              <v-slider
+                      label="V"
+                      v-model="control.head.v"
+                      max="100"
+                      min="-100"
+                      @change="publish('servo/head-v/ratio', control.head.v)"
+              ></v-slider>
             </v-flex>
           </v-layout>
 
@@ -82,9 +84,8 @@
                 box
                 label="Speach:"
                 auto-grow
-                v-model="control.speach.say"
-                @blur="publish('speach/say', control.speach.say)"
-            ></v-textarea>
+                v-model="control.speach.say"></v-textarea>
+            <v-btn depressed small color="primary" @click="publish('speach/say', control.speach.say)">send</v-btn>
           </v-layout>
 
         </v-card-text>

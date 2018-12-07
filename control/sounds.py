@@ -2,6 +2,7 @@ import hashlib
 import logging
 import os.path
 import urllib
+import re
 
 import paho.mqtt.client as mqtt
 import pygame as pg
@@ -61,9 +62,19 @@ class SoundsControl:
         self.logger.debug("Downloading sound to: " + file)
         urllib.urlretrieve(url, file)
       sound = pg.mixer.Sound(file)
-      sound.play()
+      m = re.match(r".*sounds/play/url/(\d+)", msg.topic)
+      if m:
+        channel = pg.mixer.Channel(int(m.group(1)))
+        channel.play(sound, -1)
+      else:
+        sound.play(-1)
     elif "sounds/stop" in msg.topic:
-      pg.mixer.stop()
+      m = re.match(r".*sounds/stop/(\d+)", msg.topic)
+      if m:
+        channel = pg.mixer.Channel(int(m.group(1)))
+        channel.stop()
+      else:
+        pg.mixer.stop()
 
   def start(self):
     self.client.loop_start()
