@@ -65,7 +65,7 @@ class SoundsControl:
         self.logger.debug("Downloading sound to: " + file)
         # urllib.urlretrieve(url, file)
         # urllib.request.urlretrieve(url, file)
-        os.system("wget -O {0} {1}".format(file, url))
+        os.system("wget -O " + file + " " + url)
         self.logger.debug("Downloaded sound to: " + file)
       sound = pg.mixer.Sound(file)
       m = re.match(r".*sounds/play/url/(\d+)", msg.topic)
