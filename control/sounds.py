@@ -42,6 +42,7 @@ class SoundsControl:
         self.logger.debug("Downloading speach to: " + file)
         tts = gTTS(text=text, lang=self.speachLanguage, slow=True)
         tts.save(file)
+        self.logger.debug("Speach downloaded to: " + file)
       self.play_music(file, False)
     elif "speach/lang" in msg.topic:
       self.speachLanguage = str(msg.payload)
@@ -61,6 +62,7 @@ class SoundsControl:
       if not os.path.isfile(file):
         self.logger.debug("Downloading sound to: " + file)
         urllib.urlretrieve(url, file)
+        self.logger.debug("Downloaded sound to: " + file)
       sound = pg.mixer.Sound(file)
       m = re.match(r".*sounds/play/url/(\d+)", msg.topic)
       if m:

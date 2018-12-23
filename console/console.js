@@ -23,6 +23,8 @@ var cc = new Vue({
   el: "#console",
   data: {
     connected: false,
+    topic: "",
+    payload:"",
     control: {
       joystick: {
         v: 0.0,
@@ -34,10 +36,47 @@ var cc = new Vue({
       head: {
         h: 0.0,
         v: 0.0
-      }
-    }
+      },
+      sounds: [
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    sounds: [
+        {
+          text: "Alarm",
+          value: "http://soundbible.com/grab.php?id=1061&type=wav"
+        },
+        {
+          text: "Laugh",
+          value: "http://soundbible.com/grab.php?id=1917&type=wav"
+        },
+        {
+          text: "Servo",
+          value: "http://soundbible.com/grab.php?id=756&type=wav"
+        },
+        {
+          text: "Motor",
+          value: "http://soundbible.com/grab.php?id=500&type=wav"
+        },
+        {
+          text: "Sonar",
+          value: "http://soundbible.com/grab.php?id=1183&type=wav"
+        },
+        {
+          text: "Short circuit",
+          value: "http://soundbible.com/grab.php?id=1320&type=wav"
+        },
+        {
+          text: "Gut battle",
+          value: "http://soundbible.com/grab.php?id=2078&type=wav"
+        }
+    ]
   },
   created: function () {
+    console.error(this.sounds);
     this.client = mqtt.connect("ws://ameise18:9001");
     this.client.subscribe("robo/#");
     this.client.on("message", this.onMessage);
@@ -87,6 +126,13 @@ var cc = new Vue({
         this.publishThrottled("joystick/hxv/ratio", "0x0");
         this.control.joystick.h = 0;
         this.control.joystick.v = 0;
+      }
+    },
+    playSound: function(index, sound) {
+      if (sound) {
+        this.publish("sounds/play/url/" + index, sound);
+      } else {
+        this.publish("sounds/stop/" + index);
       }
     }
   }

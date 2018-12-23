@@ -88,6 +88,32 @@
             <v-btn depressed small color="primary" @click="publish('speach/say', control.speach.say)">send</v-btn>
           </v-layout>
 
+          <v-layout row>
+            <v-flex xs12 sm3 d-flex v-for="(sound, index) in control.sounds">
+              <v-select
+                      :key="index"
+                      :items="sounds"
+                      :label="'Sound ' + index"
+                      :clearable="true"
+                      v-model="control.sounds[index]"
+                      @change="playSound(index, control.sounds[index])"
+              ></v-select>
+            </v-flex>
+          </v-layout>
+
+          <v-layout row>
+            <v-flex xs12 sm4 d-flex>
+              <v-text-field v-model="topic"
+                      label="Topic"></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4 d-flex>
+              <v-text-field v-model="payload"
+                    label="Payload"></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4>
+              <v-btn depressed small color="primary" @click="publish(topic, payload)">send</v-btn>
+            </v-flex>
+          </v-layout>
         </v-card-text>
       </v-container>
     </v-content>
