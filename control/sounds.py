@@ -1,7 +1,8 @@
 import hashlib
 import logging
 import os.path
-import urllib
+# import urllib
+import urllib.request
 import re
 
 import paho.mqtt.client as mqtt
@@ -61,7 +62,8 @@ class SoundsControl:
       self.logger.debug("File for sound: " + file)
       if not os.path.isfile(file):
         self.logger.debug("Downloading sound to: " + file)
-        urllib.urlretrieve(url, file)
+        # urllib.urlretrieve(url, file)
+        urllib.request.urlretrieve(url, file)
         self.logger.debug("Downloaded sound to: " + file)
       sound = pg.mixer.Sound(file)
       m = re.match(r".*sounds/play/url/(\d+)", msg.topic)
