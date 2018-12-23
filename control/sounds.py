@@ -58,6 +58,7 @@ class SoundsControl:
       pg.mixer.music.stop()
     elif "sounds/play/url" in msg.topic:
       url = str(msg.payload)
+      self.logger.debug("Going to play sound: " + url)
       soundHash = hashlib.md5(url.encode()).hexdigest()
       file = "/tmp/sound+" + str(soundHash) + ".wav"
       self.logger.debug("File for sound: " + file)
