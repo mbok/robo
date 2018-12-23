@@ -62,7 +62,7 @@ class SoundsControl:
       file = "/tmp/sound+" + str(soundHash) + ".wav"
       self.logger.debug("File for sound: " + file)
       if not os.path.isfile(file):
-        self.logger.debug("Downloading sound to: " + file)
+        self.logger.debug("Downloading sound " + url + " to: " + file)
         # urllib.urlretrieve(url, file)
         # urllib.request.urlretrieve(url, file)
         os.system("wget -O " + file + " " + url)
