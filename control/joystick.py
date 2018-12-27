@@ -39,6 +39,7 @@ class JoystickControl:
       self.reset()
 
   def update2(self):
+    self.logger.debug("Start updating motors")
     h = self.h_ratio / 100
     v = self.v_ratio / 100
     if h < 0:
