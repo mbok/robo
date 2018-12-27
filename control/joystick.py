@@ -29,7 +29,6 @@ class JoystickControl:
       self.v_ratio = float(payload)
       self.update2()
     elif "joystick/hxv/ratio" in msg.topic:
-      self.logger.debug("Joystick hxv update")
       ratios = str(payload).split("x")
       self.h_ratio = float(ratios[0])
       self.v_ratio = float(ratios[1])
@@ -58,9 +57,9 @@ class JoystickControl:
     right *= v
     left = -max(min(left * 100, 100), -100)
     right = -max(min(right * 100, 100), -100)
-    self.logger.debug("Sending motor update l/r: " + left + "/" + right)
-    self.client.publish("robo/motor/left/speed", left, 0, True)
-    self.client.publish("robo/motor/right/speed", right, 0, True)
+    self.logger.debug("Sending motor update l/r: " + str(left) + "/" + str(right))
+    self.client.publish("robo/motor/left/speed", str(left), 0, True)
+    self.client.publish("robo/motor/right/speed", str(right), 0, True)
 
   def reset(self):
     self.client.publish("robo/joystick/h/ratio", 0, 0, True)
