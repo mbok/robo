@@ -98,7 +98,7 @@ def startup():
 
 
 systemRunning = True
-motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
+# motorLeft = motor.Motor(26, 20, pwm.PwmMotorControl(15))
 motorRight = motor.Motor(13, 16, pwm.PwmMotorControl(14))
 servoHeadVertical = pwm.PwmServoControl(0)
 servoArmLeft = pwm.PwmServoControl(3)

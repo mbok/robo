@@ -70,8 +70,20 @@ var cc = new Vue({
           value: "http://soundbible.com/grab.php?id=1320&type=wav"
         },
         {
-          text: "Gut battle",
+          text: "Gun battle",
           value: "http://soundbible.com/grab.php?id=2078&type=wav"
+        },
+        {
+          text: "Tyrex 1",
+          value: "http://soundbible.com/grab.php?id=1782&type=wav"
+        },
+        {
+          text: "Tyrex 2",
+          value: "http://soundbible.com/grab.php?id=1319&type=wav"
+        },
+        {
+          text: "Pterodactyl",
+          value: "http://soundbible.com/grab.php?id=1242&type=wav"
         }
     ]
   },
