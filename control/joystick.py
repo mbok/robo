@@ -52,10 +52,11 @@ class JoystickControl:
         left = 2
     left *= v
     right *= v
-    self.client.publish("robo/motor/left/speed",
-                        -max(min(left * 100, 100), -100), 0, True)
-    self.client.publish("robo/motor/right/speed",
-                        -max(min(right * 100, 100), -100), 0, True)
+    left = -max(min(left * 100, 100), -100)
+    right = -max(min(right * 100, 100), -100)
+    self.logger.debug("Sending motor update l/r: " + left + "/" + right)
+    self.client.publish("robo/motor/left/speed", left, 0, True)
+    self.client.publish("robo/motor/right/speed", right, 0, True)
 
   def reset(self):
     self.client.publish("robo/joystick/h/ratio", 0, 0, True)
