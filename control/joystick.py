@@ -21,17 +21,19 @@ class JoystickControl:
 
   def on_message(self, client, userdata, msg):
     self.logger.debug(msg.topic + " " + msg.payload.decode("utf-8"))
+    payload = msg.payload.decode("utf-8")
     if "joystick/h/ratio" in msg.topic:
-      self.h_ratio = float(msg.payload)
+      self.h_ratio = float(payload)
       self.update()
     elif "joystick/v/ratio" in msg.topic:
-      self.v_ratio = float(msg.payload)
+      self.v_ratio = float(payload)
       self.update()
     elif "joystick/hxv/ratio" in msg.topic:
       self.logger.debug("Joystick hxv update")
-      ratios = str(msg.payload).split("x")
+      ratios = str(payload).split("x")
       self.h_ratio = float(ratios[0])
       self.v_ratio = float(ratios[1])
+      self.logger.debug("beide motoren ein")
       self.update()
     elif "reset" in msg.topic:
       self.reset()
