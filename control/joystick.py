@@ -28,6 +28,7 @@ class JoystickControl:
       self.v_ratio = float(msg.payload)
       self.update()
     elif "joystick/hxv/ratio" in msg.topic:
+      self.logger.debug("Joystick hxv update")
       ratios = str(msg.payload).split("x")
       self.h_ratio = float(ratios[0])
       self.v_ratio = float(ratios[1])
