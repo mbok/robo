@@ -8,11 +8,12 @@ pwm.set_pwm_freq(60)
 logger = logging.getLogger("pwm")
 
 class PwmMotorControl:
-  def __init__(self, channel):
+  def __init__(self, channel, accelerator):
     self.channel = channel
+    self.accelerator = accelerator
 
   def ratio(self, ratio):
-    pwm.set_pwm(self.channel, 0, int(round(ratio / 100.0 * 4095)))
+    pwm.set_pwm(self.channel, 0, int(round(ratio * self.accelerator / 100.0 * 4095)))
 
 
 class PwmServoControl:
