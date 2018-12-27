@@ -24,21 +24,21 @@ class JoystickControl:
     payload = msg.payload.decode("utf-8")
     if "joystick/h/ratio" in msg.topic:
       self.h_ratio = float(payload)
-      self.update()
+      self.update2()
     elif "joystick/v/ratio" in msg.topic:
       self.v_ratio = float(payload)
-      self.update()
+      self.update2()
     elif "joystick/hxv/ratio" in msg.topic:
       self.logger.debug("Joystick hxv update")
       ratios = str(payload).split("x")
       self.h_ratio = float(ratios[0])
       self.v_ratio = float(ratios[1])
       self.logger.debug("beide motoren ein")
-      self.update()
+      self.update2()
     elif "reset" in msg.topic:
       self.reset()
 
-  def update(self):
+  def update2(self):
     h = self.h_ratio / 100
     v = self.v_ratio / 100
     if h < 0:
