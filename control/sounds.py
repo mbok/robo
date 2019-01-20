@@ -33,9 +33,10 @@ class SoundsControl:
         [("robo/speach/#", 0), ("robo/music/#", 0), ("robo/sounds/#", 0)])
 
   def on_message(self, client, userdata, msg):
-    self.logger.debug(msg.topic + " " + msg.payload.decode("utf-8"))
+    payload = msg.payload.decode("utf-8")
+    self.logger.debug(msg.topic + " " + payload)
     if "speach/say" in msg.topic:
-      text = msg.payload.decode("utf-8")
+      text = payload
       textHash = self.speachLanguage + "-" + hashlib.md5(
         text.encode("utf-8")).hexdigest()
       file = "/tmp/speach+" + str(textHash) + ".mp3"
@@ -47,9 +48,9 @@ class SoundsControl:
         self.logger.debug("Speach downloaded to: " + file)
       self.play_music(file, False)
     elif "speach/lang" in msg.topic:
-      self.speachLanguage = str(msg.payload)
+      self.speachLanguage = str(payload)
     elif "music/play/file" in msg.topic:
-      file = str(msg.payload)
+      file = str(payload)
       if os.path.isfile(file):
         self.play_music(file, False)
       else:
@@ -57,7 +58,7 @@ class SoundsControl:
     elif "music/stop" in msg.topic:
       pg.mixer.music.stop()
     elif "sounds/play/url" in msg.topic:
-      url = msg.payload.decode("utf-8")
+      url = payload
       self.logger.debug("Going to play sound: " + url)
       soundHash = hashlib.md5(url.encode()).hexdigest()
       file = "/tmp/sound+" + str(soundHash) + ".wav"

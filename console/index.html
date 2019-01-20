@@ -96,7 +96,7 @@
                       :label="'Sound ' + index"
                       :clearable="true"
                       v-model="control.sounds[index]"
-                      @change="playSound(index, control.sounds[index])"
+                      @change="playSound(index, event)"
               ></v-select>
             </v-flex>
           </v-layout>
