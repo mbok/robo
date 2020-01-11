@@ -9,7 +9,7 @@ class JoystickControl:
 
     self.client = mqtt.Client()
     self.client.on_connect = self.on_connect
-    self.client.connect("master", 1883, 60)
+    self.client.connect("localhost", 1883, 60)
     self.client.on_message = self.on_message
     self.h_ratio = 0.0
     self.v_ratio = 0.0

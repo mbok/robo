@@ -23,7 +23,7 @@ class SoundsControl:
     self.logger = logging.getLogger("sounds")
     self.client = mqtt.Client()
     self.client.on_connect = self.on_connect
-    self.client.connect("master", 1883, 60)
+    self.client.connect("localhost", 1883, 60)
     self.client.on_message = self.on_message
     self.speachLanguage = "de"
 
