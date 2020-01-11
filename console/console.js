@@ -21,6 +21,7 @@ const throttle = (func, limit) => {
 
 var cc = new Vue({
   el: "#console",
+  vuetify: new Vuetify(),
   data: {
     connected: false,
     topic: "",
@@ -45,6 +46,10 @@ var cc = new Vue({
       ]
     },
     sounds: [
+        {
+            text: "- None -",
+            value: null
+        },
         {
           text: "Alarm",
           value: "http://soundbible.com/grab.php?id=1061&type=wav"
@@ -89,7 +94,7 @@ var cc = new Vue({
   },
   created: function () {
     console.error(this.sounds);
-    this.client = mqtt.connect("ws://ameise18:9001");
+    this.client = mqtt.connect("ws://robka:9001");
     this.client.subscribe("robo/#");
     this.client.on("message", this.onMessage);
     this.client.on('connect', this.onConnect);
@@ -140,12 +145,16 @@ var cc = new Vue({
         this.control.joystick.v = 0;
       }
     },
-    playSound: function(index, sound) {
-      if (sound) {
-        this.publish("sounds/play/url/" + index, sound);
-      } else {
-        this.publish("sounds/stop/" + index);
-      }
+    playSound: function(index) {
+        var self = this;
+        Vue.nextTick(function() {
+        var sound = self.control.sounds[index];
+          if (sound) {
+            self.publish("sounds/play/url/" + index, sound);
+          } else {
+            self.publish("sounds/stop/" + index);
+          }
+        });
     }
   }
 });

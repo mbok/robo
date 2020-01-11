@@ -107,7 +107,7 @@ servoHead = pwm.PwmServoControl(1)
 
 client = mqtt.Client()
 client.on_connect = on_connect
-client.connect("master", 1883, 60)
+client.connect("localhost", 1883, 60)
 client.on_message = on_message
 
 client.loop_start()
