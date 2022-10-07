@@ -25,7 +25,9 @@ var cc = new Vue({
   data: {
     connected: false,
     topic: "",
-    payload:"",
+    payload: "",
+    soundName: "",
+    soundUrl: "",
     control: {
       joystick: {
         v: 0.0,
