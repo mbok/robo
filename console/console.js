@@ -155,6 +155,12 @@ var cc = new Vue({
             self.publish("sounds/stop/" + index);
           }
         });
+    },
+    addSound: function(name, url) {
+      this.sounds.push({
+        text: name,
+        value: url
+      });
     }
   }
 });
